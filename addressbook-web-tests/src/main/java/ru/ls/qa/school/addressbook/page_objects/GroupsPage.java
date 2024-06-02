@@ -3,6 +3,7 @@ package ru.ls.qa.school.addressbook.page_objects;
 import com.codeborne.selenide.As;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.NotFoundException;
 import ru.ls.qa.school.addressbook.dto.data.GroupModelUi;
 import ru.ls.qa.school.addressbook.page_objects.components.Group;
@@ -46,19 +47,50 @@ public class GroupsPage {
                 .collect(Collectors.toList());
     }
 
-    public GroupsPage checkGroupIsVisible(GroupModelUi groupModelUi) {
-        initGroup()
+    public Group getGroupByGroupModel(GroupModelUi groupModelUi) {
+        return initGroup()
                 .stream()
                 .filter(group -> group.getGroupName()
                                       .contains(groupModelUi.getName()))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Гурппа не найдена"));
+    }
+
+    public GroupsPage checkGroupIsVisible(GroupModelUi groupModelUi) {
+        getGroupByGroupModel(groupModelUi);
         return this;
     }
 
-    public CreatingGroupPage clickButtonNewGroup() {
+    public GroupPage clickButtonNewGroup() {
         buttonNewGroup.shouldBe(visible)
                       .click();
-        return new CreatingGroupPage();
+        return new GroupPage();
+    }
+
+    public GroupsPage checkGroupIsNotVisible(GroupModelUi groupModelUi) {
+        Assertions.assertTrue(initGroup()
+                                      .stream()
+                                      .noneMatch(group -> group.getGroupName()
+                                                               .contains(groupModelUi.getName())
+                                      ), "Группа видна, хотя не должна быть");
+        return this;
+    }
+
+    public GroupsPage clickCheckboxByGroupModel(GroupModelUi groupModelUi) {
+        getGroupByGroupModel(groupModelUi)
+                .clickCheckbox();
+        return this;
+    }
+
+    public GroupPage clickButtonEdit() {
+        buttonEdit.shouldBe(visible)
+                .click();
+        return new GroupPage();
+    }
+
+    public GroupsPage clickButtonDelete() {
+        buttonDelete.shouldBe(visible)
+                  .click();
+        return this;
     }
 }

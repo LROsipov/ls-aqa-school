@@ -7,25 +7,46 @@ import ru.ls.qa.school.addressbook.page_objects.LoginPage;
 
 class GroupTest extends BaseUiTest {
     GroupsPage groupsPage;
-    GroupModelUi groupModelUi = dataFactory.getRandomGroupModelUi();
+    GroupModelUi groupModelUiForCreating = dataFactory.getRandomGroupModelUi();
+    GroupModelUi groupModelUiForEditing = dataFactory.getRandomGroupModelUi();
 
     @BeforeEach
     void openLoginPage() {
         groupsPage = LoginPage.open()
                               .auth()
                               .getNavigationPanel()
-                              .clickGroups();
+                              .clickGroups()
+                              .clickButtonNewGroup()
+                              .fillAllFields(groupModelUiForCreating)
+                              .clickButtonSubmitAndGoToGroupPage();
     }
 
     @Test
     @DisplayName("Проверка создания новой группы")
     void checkAddNewGroup() {
         groupsPage
-                .clickButtonNewGroup()
-                .fillAllFields(groupModelUi)
-                .clickButtonEnterInformationAndGoToGroupPage()
-                .checkGroupIsVisible(groupModelUi)
+                .checkGroupIsVisible(groupModelUiForCreating)
                 .getHeader()
                 .clickButtonLogout();
+    }
+
+    @Test
+    @DisplayName("Проверка редактирования группы")
+    void checkEditGroup() {
+        groupsPage
+                .clickCheckboxByGroupModel(groupModelUiForCreating)
+                .clickButtonEdit()
+                .fillAllFields(groupModelUiForEditing)
+                .clickButtonSubmitAndGoToGroupPage()
+                .checkGroupIsVisible(groupModelUiForEditing);
+    }
+
+    @Test
+    @DisplayName("Проверка редактирования группы")
+    void checkDeleteGroup() {
+        groupsPage
+                .clickCheckboxByGroupModel(groupModelUiForCreating)
+                .clickButtonDelete()
+                .checkGroupIsNotVisible(groupModelUiForCreating);
     }
 }

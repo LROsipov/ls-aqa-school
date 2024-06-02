@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 @Getter
-public class CreatingGroupPage {
+public class GroupPage extends BasePage{
     private final NavigationPanel navigationPanel;
     private final Header header;
     @As("Поле [Group name]")
@@ -20,36 +20,32 @@ public class CreatingGroupPage {
     private final SelenideElement inputGroupHeader = $("textarea[name*=header]");
     @As("Поле [Group footer]")
     private final SelenideElement inputGroupFooter = $("textarea[name*=footer]");
-    @As("Кнопка [Enter Information]")
-    private final SelenideElement buttonEnterInformation = $("input[name=submit]");
+    @As("Кнопка [Enter/Update]")
+    private final SelenideElement buttonSubmit = $("input[type=submit]");
     @As("Сообщение успешного добавления")
     private final SelenideElement informationEnteredMessage = $("div[class=msgbox]");
     @As("Кнопка возарата на [Groups page]")
     private final SelenideElement buttonReturnToGroupPage = $("div i a");
 
 
-    public CreatingGroupPage() {
+    public GroupPage() {
         navigationPanel = new NavigationPanel();
         header = new Header();
         inputGroupName.shouldBe(visible);
         inputGroupHeader.shouldBe(visible);
         inputGroupFooter.shouldBe(visible);
-        buttonEnterInformation.shouldBe(visible);
     }
 
-    public CreatingGroupPage fillAllFields(GroupModelUi groupModelUi) {
-        inputGroupName.shouldBe(visible)
-                      .setValue(groupModelUi.getName());
-        inputGroupHeader.shouldBe(visible)
-                        .setValue(groupModelUi.getHeader());
-        inputGroupFooter.shouldBe(visible)
-                        .setValue(groupModelUi.getFooter());
+    public GroupPage fillAllFields(GroupModelUi groupModelUi) {
+        setValueIntoInput(inputGroupName, groupModelUi.getName());
+        setValueIntoInput(inputGroupHeader, groupModelUi.getHeader());
+        setValueIntoInput(inputGroupFooter, groupModelUi.getFooter());
         return this;
     }
 
-    public GroupsPage clickButtonEnterInformationAndGoToGroupPage() {
-        buttonEnterInformation.shouldBe(visible)
-                              .click();
+    public GroupsPage clickButtonSubmitAndGoToGroupPage() {
+        buttonSubmit.shouldBe(visible)
+                    .click();
         informationEnteredMessage.shouldBe(visible);
         return clickButtonReturnToGroupPage();
     }

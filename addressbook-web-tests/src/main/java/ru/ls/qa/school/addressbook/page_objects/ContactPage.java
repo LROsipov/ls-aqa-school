@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @Getter
-public class AddContactPage {
+public class ContactPage extends BasePage {
     private final NavigationPanel navigationPanel;
     private final Header header;
     @As("Полле ввода [First name]")
@@ -44,31 +44,22 @@ public class AddContactPage {
     @As("Кнопка возврата на [Home page]")
     private final SelenideElement buttonReturnToHomePage = $x("//a[text()='home page']");
 
-    public AddContactPage() {
+    public ContactPage() {
         pagesText.shouldBe(visible);
         navigationPanel = new NavigationPanel();
         header = new Header();
     }
 
-    public AddContactPage fillAllFields(ContactModelUi contact) {
-        inputFirstName.shouldBe(visible)
-                      .setValue(contact.getFirstName());
-        inputMiddleName.shouldBe(visible)
-                       .setValue(contact.getMiddleName());
-        inputLastName.shouldBe(visible)
-                     .setValue(contact.getLastName());
-        inputNickName.shouldBe(visible)
-                     .setValue(contact.getNickName());
-        inputCompany.shouldBe(visible)
-                    .setValue(contact.getCompany());
-        inputTitle.shouldBe(visible)
-                  .setValue(contact.getTitle());
-        inputAddress.shouldBe(visible)
-                    .setValue(contact.getAddress());
-        inputHomePhone.shouldBe(visible)
-                      .setValue(contact.getHomePhone());
-        inputMobilePhone.shouldBe(visible)
-                        .setValue(contact.getMobilePhone());
+    public ContactPage fillAllFields(ContactModelUi contact) {
+        setValueIntoInput(inputFirstName, contact.getFirstName());
+        setValueIntoInput(inputMiddleName, contact.getMiddleName());
+        setValueIntoInput(inputLastName, contact.getLastName());
+        setValueIntoInput(inputNickName, contact.getNickName());
+        setValueIntoInput(inputCompany, contact.getCompany());
+        setValueIntoInput(inputTitle, contact.getTitle());
+        setValueIntoInput(inputAddress, contact.getAddress());
+        setValueIntoInput(inputHomePhone, contact.getHomePhone());
+        setValueIntoInput(inputMobilePhone, contact.getMobilePhone());
         return this;
     }
 
@@ -81,7 +72,16 @@ public class AddContactPage {
     }
 
     public HomePage clickButtonReturnToHomePage() {
-        return navigationPanel.clickButtonHome();
+        buttonReturnToHomePage.shouldBe(visible)
+                              .click();
+        return new HomePage();
+    }
+
+    public HomePage clickButtonUpdateAndGoHomePage() {
+        buttonEnter.shouldBe(visible)
+                   .click();
+        informationEnteredMessage.shouldBe(visible);
+        return buttonReturnToHomePage.is(visible) ? clickButtonReturnToHomePage() : navigationPanel.clickButtonHome();
     }
 
 }

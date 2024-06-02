@@ -2,6 +2,9 @@ package ru.ls.qa.school.addressbook.page_objects.components;
 
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
+import ru.ls.qa.school.addressbook.page_objects.ContactPage;
+
+import static com.codeborne.selenide.Condition.visible;
 
 @Getter
 public class Contact {
@@ -31,7 +34,19 @@ public class Contact {
                              .as("All phones");
         this.buttonDetails = root.$x(".//td[7]")
                                  .as("Кнопка [Details]");
-        this.buttonEdit = root.$(".//td[8]")
+        this.buttonEdit = root.$x(".//td[8]/a")
                               .as("Кнопка [Edit]");
+    }
+
+    public ContactPage clickButtonEdit() {
+        buttonEdit.shouldBe(visible)
+                .click();
+        return new ContactPage();
+    }
+
+    public Contact clickCheckbox() {
+        checkbox.shouldBe(visible)
+                  .click();
+        return this;
     }
 }

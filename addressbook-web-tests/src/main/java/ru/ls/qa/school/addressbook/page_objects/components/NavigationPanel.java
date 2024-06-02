@@ -3,7 +3,7 @@ package ru.ls.qa.school.addressbook.page_objects.components;
 import com.codeborne.selenide.As;
 import com.codeborne.selenide.SelenideElement;
 import lombok.Getter;
-import ru.ls.qa.school.addressbook.page_objects.AddContactPage;
+import ru.ls.qa.school.addressbook.page_objects.ContactPage;
 import ru.ls.qa.school.addressbook.page_objects.GroupsPage;
 import ru.ls.qa.school.addressbook.page_objects.HomePage;
 
@@ -28,10 +28,10 @@ public class NavigationPanel {
         buttonNextBirthdays.shouldBe(visible);
     }
 
-    public AddContactPage clickButtonAddNew() {
+    public ContactPage clickButtonAddNew() {
         buttonAddNew.shouldBe(visible)
                     .click();
-        return new AddContactPage();
+        return new ContactPage();
     }
 
     public HomePage clickButtonHome() {
