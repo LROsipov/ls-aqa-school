@@ -53,7 +53,7 @@ public class GroupsPage {
                 .filter(group -> group.getGroupName()
                                       .contains(groupModelUi.getName()))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("Гурппа не найдена"));
+                .orElseThrow(() -> new NotFoundException("Группа не найдена"));
     }
 
     public GroupsPage checkGroupIsVisible(GroupModelUi groupModelUi) {

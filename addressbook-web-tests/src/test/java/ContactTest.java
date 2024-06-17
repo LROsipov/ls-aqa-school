@@ -3,7 +3,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.ls.qa.school.addressbook.dto.data.ContactModelUi;
 import ru.ls.qa.school.addressbook.page_objects.HomePage;
-import ru.ls.qa.school.addressbook.page_objects.LoginPage;
+
+import static ru.ls.qa.school.addressbook.page_objects.LoginPage.open;
 
 class ContactTest extends BaseUiTest {
     HomePage homePage;
@@ -12,12 +13,11 @@ class ContactTest extends BaseUiTest {
 
     @BeforeEach
     void openLoginPage() {
-        homePage = LoginPage.open()
-                            .auth()
-                            .getNavigationPanel()
-                            .clickButtonAddNew()
-                            .fillAllFields(contactDataForCreating)
-                            .clickButtonEnterAndGoHomePage();
+        homePage = open().auth()
+                         .getNavigationPanel()
+                         .clickButtonAddNew()
+                         .fillAllFields(contactDataForCreating)
+                         .clickButtonEnterAndGoHomePage();
     }
 
     @Test

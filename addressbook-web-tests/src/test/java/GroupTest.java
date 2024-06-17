@@ -3,7 +3,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.ls.qa.school.addressbook.dto.data.GroupModelUi;
 import ru.ls.qa.school.addressbook.page_objects.GroupsPage;
-import ru.ls.qa.school.addressbook.page_objects.LoginPage;
+
+import static ru.ls.qa.school.addressbook.page_objects.LoginPage.open;
 
 class GroupTest extends BaseUiTest {
     GroupsPage groupsPage;
@@ -12,13 +13,12 @@ class GroupTest extends BaseUiTest {
 
     @BeforeEach
     void openLoginPage() {
-        groupsPage = LoginPage.open()
-                              .auth()
-                              .getNavigationPanel()
-                              .clickGroups()
-                              .clickButtonNewGroup()
-                              .fillAllFields(groupModelUiForCreating)
-                              .clickButtonSubmitAndGoToGroupPage();
+        groupsPage = open().auth()
+                           .getNavigationPanel()
+                           .clickGroups()
+                           .clickButtonNewGroup()
+                           .fillAllFields(groupModelUiForCreating)
+                           .clickButtonSubmitAndGoToGroupPage();
     }
 
     @Test
@@ -42,7 +42,7 @@ class GroupTest extends BaseUiTest {
     }
 
     @Test
-    @DisplayName("Проверка редактирования группы")
+    @DisplayName("Проверка удаления группы")
     void checkDeleteGroup() {
         groupsPage
                 .clickCheckboxByGroupModel(groupModelUiForCreating)
